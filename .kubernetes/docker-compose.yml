@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+  docker-bind:
+    image: docker:dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    networks:
+      kube_network:
+        ipv4_address: 10.78.0.3
+    ports:
+      - "8087:8001"
+    volumes:
+      - ./.data/docker-bind/certs/client:/certs/client
+      - /var/run/docker:/var/lib/docker:rw,cached
+  
+  k8s-minikube:
+    build: 
+      context: ./.docker/k8s-minikube
+    privileged: true
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
+    environment:
+      - DOCKER_HOST=tcp://10.78.0.3:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+    networks:
+      kube_network:
+        ipv4_address: 10.78.0.4
+    volumes:
+      - ./.data/docker-bind/certs/client:/certs/client
+      - ./.data/k8s-minikube/.minikube/logs:/.minikube/logs:rw,cached
+    depends_on:
+      - docker-bind
+    ports:
+      - "8088:8001"
+    restart: always
+
+       
+networks:
+  kube_network:
+    ipam:
+      config:
+        - subnet: 10.78.0.0/16

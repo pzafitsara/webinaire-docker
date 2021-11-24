@@ -1,0 +1,53 @@
+version: '3.5'
+
+services:
+  apache-php_symfony:
+    build:
+      context: ./.docker/services/apache-php-symfony
+    container_name: apache-php_symfony-container
+    volumes:
+      - ./app/symfony:/var/www/html:rw,cached
+      - ./.data/apache-php-symfony/var/log:/var/log
+    depends_on:
+      - mysql_symfony
+    ports:
+    - "${HOST_SYMFONY_HTTP_PORT:-8180}:${CONTAINER_SYMFONY_HTTP_PORT:-80}"
+
+  mysql_symfony:
+    image: mysql:5.6
+    container_name: mysql_symfony-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CONTAINER_MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_DATABASE=${CONTAINER_MYSQL_DATABASE:-db_name}
+      - MYSQL_USER=${CONTAINER_MYSQL_USER:-db_user}
+      - MYSQL_PASSWORD=${CONTAINER_MYSQL_PASSWORD:-db_password}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:
+      - ./.data/mysql-symfony/var/lib/mysql:/var/lib/mysql:rw
+    ports:
+    - "${HOST_MYSQL_PORT:-3106}:${CONTAINER_MYSQL_PORT:-3306}"
+
+  phpmyadmin_symfony:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_symfony-container
+    environment:
+      - PMA_HOST=mysql_symfony
+      - PMA_PORT=${CONTAINER_MYSQL_PORT:-3306}
+      - MYSQL_DATABASE=${CONTAINER_MYSQL_DATABASE:-db_name}
+      - MYSQL_USER=${CONTAINER_MYSQL_USER:-db_user}
+      - MYSQL_PASSWORD=${CONTAINER_MYSQL_PASSWORD:-db_password}
+    depends_on:
+      - mysql_symfony
+    ports:
+      - "${HOST_PMA_PORT:-4106}:${CONTAINER_PMA_PORT:-80}"
+
+  apache-php_laravel:
+    build:
+      context: ./.docker/services/apache-php-laravel
+    container_name: apache-php_laravel-container
+    volumes:
+      - ./app/laravel:/var/www/html:rw,cached
+      - ./.data/apache-php-laravel/var/log:/var/log
+    ports:
+    - "${HOST_LARAVEL_HTTP_PORT:-8181}:${CONTAINER_LARAVEL_HTTP_PORT:-80}"
+
