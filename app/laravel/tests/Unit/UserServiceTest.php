@@ -20,7 +20,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals(30, $somme);
 
         // Code PHP >= 8
-        // $somme = $service->somme(10,c:10);
-        // $this->assertEquals(30, $somme);
+        $somme = $service->somme(10,c:10);
+        $this->assertEquals(30, $somme);
     }
 }
