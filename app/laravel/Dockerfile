@@ -9,6 +9,10 @@ RUN a2enmod rewrite && a2ensite app-laravel
 
 COPY . /var/www/html
 
+COPY ./.docker/scripts/composer-install.sh /usr/local/bin/composer-install.sh
+RUN chmod +x /usr/local/bin/composer-install.sh
+RUN composer-install.sh
+
 COPY ./.docker/scripts/entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint
 

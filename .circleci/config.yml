@@ -66,7 +66,7 @@ workflows:
           filters:
              branches:
               only:
-                 - develop
+                 - develops
                  - master
       - test_unitaire:
           requires:
@@ -74,7 +74,7 @@ workflows:
           filters:
              branches:
               only:
-                 - develop
+                 - develops
                  - master
       - test_fonctionnel:
           requires:
@@ -82,7 +82,7 @@ workflows:
           filters:
              branches:
               only:
-                 - develop
+                 - develops
                  - master
       - deliver_to_main:
           requires:
@@ -91,8 +91,7 @@ workflows:
           filters:
              branches:
               only:
-                 - develop
-                 - master
+                 - develops
       - deliver_to_hub:
           requires:
             - test_unitaire
@@ -100,5 +99,4 @@ workflows:
           filters:
              branches:
               only:
-                 - develop
                  - master
