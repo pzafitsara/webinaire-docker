@@ -66,24 +66,24 @@ workflows:
           filters:
              branches:
               only:
-                 - develops
-                 - mains
+                 - develop
+                 - main
       - test_unitaire:
           requires:
             - build
           filters:
              branches:
               only:
-                 - develops
-                 - mains
+                 - develop
+                 - main
       - test_fonctionnel:
           requires:
             - build
           filters:
              branches:
               only:
-                 - develops
-                 - mains
+                 - develop
+                 - main
       - deliver_to_main:
           requires:
             - test_unitaire
@@ -91,7 +91,7 @@ workflows:
           filters:
              branches:
               only:
-                 - develops
+                 - develop
       - deliver_to_hub:
           requires:
             - test_unitaire
@@ -99,4 +99,4 @@ workflows:
           filters:
              branches:
               only:
-                 - mains
+                 - main
