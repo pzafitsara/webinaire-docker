@@ -1,11 +1,10 @@
 <?php
     // PHP > 5.4
-    // $users = ["Foo", "Bar", "Unknwow", "Teste"];
-    $users = array("Foo", "Bar", "Unknwow", "Teste");
+    $users = array("Foo", "Bar", "Unknwow");
 
-    echo "<center><u>Liste des animaux:</u></br><br/>";
+    echo "<center><br/><br/><u>Liste des utilisateurs:</u><br/><br/>";
     foreach($users as $i => $user) {
-        echo "Aminal N# " . ++$i . ": " . $user . "<br/>";
+        echo "Utilisateur N# " . ++$i . ": " . $user . "<br/>";
     }
     echo "</center></br></br>";
 

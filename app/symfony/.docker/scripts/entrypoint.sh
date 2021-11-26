@@ -16,5 +16,5 @@ if [ "$1" = 'run-apache' ]; then
     #php app/console doctrine:schema:create
     #php app/console doctrine:fixtures:load --append --purge-with-truncate
 fi
-
+npm run dev
 exec "$@"
